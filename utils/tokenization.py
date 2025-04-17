@@ -2,7 +2,7 @@ from authlib.jose import JsonWebToken
 
 # private key creation: openssl genrsa -out private_key.pem
 # public key creation: openssl rsa -in private_key.pem -pubout -out public_key.pem
-
+# REMOVE PRIVATE AND PUBLIC key from github
 # algorithm used for token creation
 header = {"alg": "RS256"}
 private_key = ""
@@ -25,6 +25,7 @@ def create_token(payload: dict) -> str:
     return token.decode()
 
 
+# decode token to get payload
 def decode_token(token: str) -> dict:
     """decode token and send back the payload data"""
     return jwt.decode(token, public_key)

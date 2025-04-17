@@ -1,11 +1,11 @@
 from fastapi import APIRouter
-
+from schemas import Filter
 
 router = APIRouter(prefix="/news/headlines", tags=["news"])
 
 
 @router.get("/filter/")
-def source_id_headlines(filter):
+def source_id_headlines(filter: Filter):
     """Fetch top headlines by filtering both country and source
     (use query parameters country and source)"""
 
