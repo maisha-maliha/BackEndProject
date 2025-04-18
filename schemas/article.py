@@ -6,4 +6,4 @@ class Article(BaseModel):
     title: str
     description: str
     url: HttpUrl
-    publishedAt: date
+    published_at: date
