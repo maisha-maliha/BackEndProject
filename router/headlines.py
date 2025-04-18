@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import requests
 import os
 
-router = APIRouter(prefix="/news/headlines", tags=["news"])
+router = APIRouter(prefix="/news/headlines", tags=["headlines"])
 
 # load all environment variable
 load_dotenv()
@@ -20,6 +20,9 @@ def country_source_headlines(filter: Annotated[Filter, Query()]):
     url = f"https://newsapi.org/v2/top-headlines?"
     if filter.country:
         url += f"country={filter.country}"
+
+    # cannot have both country and source
+    # if country then source is ignored
     if filter.source and not filter.country:
         url += f"sources={filter.source}"
 
