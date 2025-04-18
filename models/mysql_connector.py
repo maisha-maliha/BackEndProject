@@ -21,12 +21,30 @@ database_config = {
 
 def mysql_database_connection(func):
     def wrapper(*args, **kwargs):
+        conn = None
         try:
-            # create connection to mysql
+            # if connection with database(DB) doesnt exist then we create it
+            if not conn:
+                temp_connection = db.connect(
+                    user=DB_USER, password=DB_PASSWORD, host=DB_HOST
+                )
+                temp_cursor = temp_connection.cursor()
+                temp_cursor.execute("SHOW DATABASES")
+                databases = [x[0] for x in temp_cursor.fetchall()]
+
+                # check if database exists or not
+                if DB not in databases:
+                    temp_cursor.execute(f"CREATE DATABASE {DB}")
+                temp_cursor.close()
+                temp_connection.close()
+
+            # create connection to mysql with our database DB
             conn = db.connect(**database_config)
             cursor = conn.cursor()
-            print("database connection ===========")
+            print("database connected ===========")
+
             return func(*args, **kwargs, database=conn, cursor=cursor)
+
         except db.Error as err:
             print("database connection error: ", err)
         finally:
