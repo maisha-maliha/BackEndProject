@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Query
 from typing import Annotated
 from dotenv import load_dotenv
+from models import add_news
+from schemas import Article
 import requests
 import os
 
@@ -19,12 +21,15 @@ def news(
     page: Annotated[int | None, Query()] = None,
 ):
     """Fetch all news with pagination support"""
+
+    # newsapi url
     url = f"https://newsapi.org/v2/everything?q={q}"
     if pageSize:
         url += f"&pageSize={pageSize}"
     if pageSize:
         url += f"&page={page}"
-    print(NEWSAPI_KEY)
+
+    # fetch data from newsapi
     response = requests.get(
         url,
         headers={"x-api-key": NEWSAPI_KEY},
@@ -35,3 +40,32 @@ def news(
 @router.post("/save-latest")
 def save_lates():
     """Fetch the latest news and save the top 3 into a database."""
+
+    # newsapi url
+    url = f"https://newsapi.org/v2/top-headlines?country=us&pageSize=3"
+
+    # fetch data from newsapi
+    response = requests.get(
+        url,
+        headers={"x-api-key": NEWSAPI_KEY},
+    ).json()
+
+    artilces = []
+    for item in response["articles"]:
+
+        article = Article(
+            title=item["title"],
+            description=item["description"],
+            url=item["url"],
+            published_at=item["publishedAt"],
+        )
+        artilces.append(article)
+
+    # add data to table
+    added = add_news(artilces)
+
+    return {
+        "response": (
+            "sucessfully added data" if added else "couldnt add data to database"
+        )
+    }

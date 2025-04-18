@@ -3,7 +3,7 @@
 ## Introduction:
 This project is a built using FastAPI and MySQL. In this project I have used thirdparty API named [News API](https://newsapi.org/). 
 
-The following API end points were implemented:
+The following API end points were implemented in FastAPI:
 
 * GET /news: Fetch all news with pagination support.
 
