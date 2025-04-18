@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, Query
 from typing import Annotated
 from schemas import Filter
 from dotenv import load_dotenv
@@ -13,10 +13,21 @@ load_dotenv()
 NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
 
 
-@router.get("/filter/")
-def country_source_headlines(filter: Filter):
+@router.get("/filter")
+def country_source_headlines(filter: Annotated[Filter, Query()]):
     """Fetch top headlines by filtering both country and source
     (use query parameters country and source)"""
+    url = f"https://newsapi.org/v2/top-headlines?"
+    if filter.country:
+        url += f"country={filter.country}"
+    if filter.source and not filter.country:
+        url += f"sources={filter.source}"
+
+    response = requests.get(
+        url,
+        headers={"x-api-key": NEWSAPI_KEY},
+    )
+    return {"response": response.json()}
 
 
 @router.get("/country/{country_code}")
