@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
 from typing import Annotated
 from dotenv import load_dotenv
 from models import add_news
 from schemas import Article
+from .auth import oauth_scheme
 import requests
 import os
 
@@ -17,6 +18,7 @@ router = APIRouter(prefix="/news", tags=["news"])
 @router.get("")
 def news(
     q: Annotated[str, Query()],
+    token: Annotated[str, Depends(oauth_scheme)],
     pageSize: Annotated[int | None, Query()] = None,
     page: Annotated[int | None, Query()] = None,
 ):
@@ -38,7 +40,9 @@ def news(
 
 
 @router.post("/save-latest")
-def save_lates():
+def save_latest(
+    token: Annotated[str, Depends(oauth_scheme)],
+):
     """Fetch the latest news and save the top 3 into a database."""
 
     # newsapi url
@@ -67,5 +71,6 @@ def save_lates():
     return {
         "response": (
             "sucessfully added data" if added else "couldnt add data to database"
-        )
+        ),
+        "data": artilces,
     }

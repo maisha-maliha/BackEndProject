@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, Depends
 from typing import Annotated
 from schemas import Filter
 from dotenv import load_dotenv
+from .auth import oauth_scheme
 import requests
 import os
 
@@ -14,7 +15,10 @@ NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
 
 
 @router.get("/filter")
-def country_source_headlines(filter: Annotated[Filter, Query()]):
+def country_source_headlines(
+    filter: Annotated[Filter, Query()],
+    token: Annotated[str, Depends(oauth_scheme)],
+):
     """Fetch top headlines by filtering both country and source
     (use query parameters country and source)"""
 
@@ -38,7 +42,10 @@ def country_source_headlines(filter: Annotated[Filter, Query()]):
 
 
 @router.get("/country/{country_code}")
-def country_code_headlines(country_code: Annotated[str, Path()]):
+def country_code_headlines(
+    country_code: Annotated[str, Path()],
+    token: Annotated[str, Depends(oauth_scheme)],
+):
     """Fetch top headlines by country"""
 
     # newsapi url
@@ -53,7 +60,10 @@ def country_code_headlines(country_code: Annotated[str, Path()]):
 
 
 @router.get("/source/{source_id}")
-def source_id_headlines(source_id):
+def source_id_headlines(
+    source_id: int,
+    token: Annotated[str, Depends(oauth_scheme)],
+):
     """Fetch top headlines by source"""
 
     # newsapi url

@@ -21,7 +21,7 @@ def add_news(data: list[Article], database, cursor) -> bool:
 
         # Insert top 3 articles
         insert_query = """
-            INSERT INTO latest_news 
+            INSERT INTO latest_news
             (title, description, url, published_at)
             VALUES (%s, %s, %s, %s)
         """
@@ -39,6 +39,7 @@ def add_news(data: list[Article], database, cursor) -> bool:
 
         database.commit()
     except Exception as err:
+        print("error found in add news", err)
         return False
 
     return True

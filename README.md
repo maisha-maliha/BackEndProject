@@ -19,4 +19,16 @@ Schemas have been created to save articles in database.
 
 
 ## Setup Instruction:
+Create a .env file and put this code inside. Make sure to put your credentials. Also make sure the .env file is in the root folder where *main.py* exists.
 
+```
+DB_USER = 'your username'
+DB_PASSWORD = 'your password'
+DB_HOST = '127.0.0.1'
+DB = 'newsapi'
+SECRET_KEY = 'generate secret key'
+NEWSAPI_KEY = 'your_newsapi.org_key'
+```
+
+Generate secret key by typing the follwing in your terminal:
+`openssl rand -hex 32` 
