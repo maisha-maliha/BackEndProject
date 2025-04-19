@@ -26,10 +26,9 @@ Create a .env file and put this code inside. Make sure to put your credentials. 
 ```
 DB_USER=root
 DB_PASSWORD=YOURPASSWORD
-DB_HOST=db               # Set this to 'db' for Docker container communication
+DB_HOST=db    # Set this to 'db' for Docker container communication
 DB=newsapi
-SECRET_KEY= 'YOUR SECRETKEY'           # openssl rand -hex 32
-NEWSAPI_KEY= 'YOUR NEWSAPI.ORG KEY'
+NEWSAPI_KEY='YOUR NEWSAPI.ORG KEY'
 MYSQL_ROOT_PASSWORD=yourpassword
 ```
 
@@ -74,9 +73,24 @@ db:
 
 now that the project is setup we can now build the whole project and run it.
 
+
 ### STEP 3:
+
+You need to create the public and private key inside the /utils folder.
+so in your terminal type: `cd utils`
+
+Then you do the following
+
+private key creation: `openssl genrsa -out private_key.pem`
+
+public key creation: `openssl rsa -in private_key.pem -pubout -out public_key.pem`
+
+
+### STEP 4:
 In you terminal run
 `docker-compose up --build`
+
+the server will be running
 
 This will take some time and once all is setup. To check if its working visit
 `http://localhost:8000/docs`
@@ -84,4 +98,8 @@ This will take some time and once all is setup. To check if its working visit
 You should be getting this:
 ![FastAPI docs](https://raw.githubusercontent.com/maisha-maliha/BackEndProject/refs/heads/master/image.png)
 
-### STEP 4:
+### STEP 5:
+
+the username to login is: `maisha`
+
+the password is: `testuser`

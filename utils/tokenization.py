@@ -9,6 +9,7 @@ private_key_path = current_dir / "private_key.pem"
 public_key_path = current_dir / "public_key.pem"
 # private key creation: openssl genrsa -out private_key.pem
 # public key creation: openssl rsa -in private_key.pem -pubout -out public_key.pem
+
 # REMOVE PRIVATE AND PUBLIC key from github
 # algorithm used for token creation
 header = {"alg": "RS256"}
