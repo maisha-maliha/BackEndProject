@@ -82,4 +82,4 @@ This will take some time and once all is setup. To check if its working visit
 `http://localhost:8000/docs`
 
 You should be getting this:
-![Alt text](https://raw.githubusercontent.com/maisha-maliha/BackEndProject/refs/heads/master/image.png)
+![FastAPI docs](https://github.com/maisha-maliha/BackEndProject/blob/master/image.png)
