@@ -82,4 +82,6 @@ This will take some time and once all is setup. To check if its working visit
 `http://localhost:8000/docs`
 
 You should be getting this:
-![FastAPI docs](image.png)
+![FastAPI docs](https://raw.githubusercontent.com/maisha-maliha/BackEndProject/refs/heads/master/image.png)
+
+### STEP 4:
