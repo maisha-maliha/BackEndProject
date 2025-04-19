@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: ${DB}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  # Only need root password here
+    ports:
+      - "3307:3306"  # Maps host port 3307 to MySQL container's 3306
+    volumes:
+      - db_data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: fastapi-app
+    restart: always
+    depends_on:
+      - db
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+volumes:
+  db_data:
